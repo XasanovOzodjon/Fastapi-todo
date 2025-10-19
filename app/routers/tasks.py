@@ -32,8 +32,8 @@ def update_status(
     return update_task_status(session, user, task_id)
 
 
-@router.delete('/{task_id}', response_model=TaskOut)
-def update_status(
+@router.delete('/{task_id}')
+def delete_task_endpoint(
     task_id: int,
     session: Annotated[Session, Depends(get_db)],
     user: Annotated[Session, Depends(get_current_user)]

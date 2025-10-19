@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Boolean, ForeignKey, Numeric
 
 from app.db.database import Base
 
@@ -9,9 +9,12 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(length=128), nullable=False, unique=True, index=True)
     hashed_password = Column(String, nullable=False)
-    # add extra fields: first_name(required), last_name, birth_date, phone, email
-
-    # role: admin, user(default), oxirida
+    first_name = Column(String(length=128), nullable=False)
+    last_name = Column(String(length=128), nullable=True)
+    birth_date = Column(String(length=10), nullable=True)
+    phone = Column(String(length=15), nullable=True)
+    email = Column(String(length=256), nullable=True, unique=True)
+    is_admin = Column(Boolean, default=False, nullable=False)
 
     def __repr__(self) -> str:
         return f'User(id={self.id}, username={self.username})'
@@ -25,7 +28,8 @@ class Task(Base):
     description = Column(Text, default='')
     status = Column(Boolean, default=False, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    # add extra fields: category, priority(1-5)
+    category = Column(String(length=64), nullable=True)
+    priority = Column(Integer, nullable=False, default=1)
 
     def __repr__(self) -> str:
         return f'Task(id={self.id}, name={self.name})'

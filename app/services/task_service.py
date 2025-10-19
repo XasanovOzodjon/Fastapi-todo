@@ -11,7 +11,13 @@ def create_task(session: Session, user: User, task_data: TaskCreate) -> Task:
     if existing_task:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Task already exists.")
     
-    task = Task(name=task_data.name, description=task_data.description, user_id=user.id)
+    task = Task(
+        name=task_data.name, 
+        description=task_data.description, 
+        user_id=user.id,
+        category=task_data.category,
+        priority=task_data.priority
+    )
 
     session.add(task)
     session.commit()
